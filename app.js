@@ -9,9 +9,6 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
-// var server = require('http').Server(app);
-
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -85,15 +82,16 @@ var io = require('socket.io')(server);
 var State = require('./state');
 if (!global.state) global.state = new State();
 
-new CronJob('*/15 * * * * *', function () {
+new CronJob('9-54/15 * * * * *', function () {
   console.log('bla');
   io.emit('winner', global.state);
+  global.state.winner = true;
 }, null, true);
 
 global.state = new State(global.state);
 io.emit('new state', global.state);
 
-new CronJob('4-59/15 * * * * *', function () {
+new CronJob('*/15 * * * * *', function () {
   console.log('bla bla');
   global.state = new State(global.state);
   io.emit('new state',global.state);

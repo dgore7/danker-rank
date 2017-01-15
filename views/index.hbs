@@ -6,36 +6,17 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <!-- <h1>{{title}}</h1> -->
+    <h1>{{title}}</h1>
     <div class="container">
-      <img id="left" class="hvr-pulse" src="http://images.memes.com/meme/1372369" alt="bull">
-      <img id="right" class="hvr-pulse-shrink" src="http://images.memes.com/meme/1372367" alt="doit">
-      <img id="vs" src="/images/vs.png" alt="">
+      <form class="game-form center-block" action="game" method="post">
+        <button class="btn-primary btn" id="game-start-btn" type="submit" name="submit" value="PLAY">PLAY</button>
+      </form>
     </div>
     <script
       src="https://code.jquery.com/jquery-3.1.1.min.js"
       integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
       crossorigin="anonymous">
     </script>
-    <script src="/javascripts/index.js" charset="utf-8"></script>
-    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-    <script>
-      // const left  = $('#left');
-      // const right = $('#right');
-      var socket = io();
-      socket.on('winner', function (data) {
-        if (data.memeOne.score > data.memeTwo.score) {
-          right.css("display", 'none');
-        } else if (data.memeOne.score < data.memeTwo.score) {
-          left.css("display", 'none');
-        } else {
-          left.css("display", 'none');
-          right.css("display", 'none');
-        }
-      });
-      socket.on('new state', function (data) {
-
-      });
-    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   </body>
 </html>
