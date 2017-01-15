@@ -12,7 +12,7 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || '80');
 app.set('port', port);
 
 /**
@@ -28,6 +28,35 @@ var server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+
+var CronJob = require('cron').CronJob;
+
+var io = require('socket.io')(server);
+var State = require('../state');
+if (!global.state) global.state = new State();
+
+console.log('bla');
+var job1 = new CronJob('*/15 * * * * *', function () {
+  io.emit('winner', global.state);
+});
+
+setTimeout(function () {
+  var job2 = new CronJob('*/15 * * * * *', function () {
+    global.state = new State(global.state);
+    io.emit('new state',global.state);
+  });
+}, 5000);
+
+io.on('connection', function (socket) {
+  console.log(socket);
+  socket.on('vote', function (data) {
+    if (data.memeId == global.state.memeOne.memeId) {
+      global.state.memeOne.score++;
+    } else {
+      global.state.memeTwo.score++;
+    }
+  });
+});
 
 /**
  * Normalize a port into a number, string, or false.
